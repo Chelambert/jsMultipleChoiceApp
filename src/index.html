@@ -5,55 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Futurama Quiz</title>
+    <title>Welcome to my Starter Setup</title>
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 
 <body>
 
-    <div class="container home hide">
-        <header class="home__header">
-            <h1>Futurama Quiz</h1>
-        </header>
-        <button id="btn__start" class="btn">Start Quiz</button>
-    </div>
-
-    <div class="container questions">
-        <div class="question">
-            <h1 class="question__header">What is Fry's first name?</h1>
-            <ol class="answers">
-                <label for="ans1">
-                    <li><input id="ans1" type="radio" name="ans" val="Fred"><span> Fred</span></li>
-                </label>
-                <label for="ans2">
-                <li><input id="ans2" type="radio" name="ans" val="Philip"><span> Philip</span></li>
-                </label>
-                <label for="ans3">
-                <li><input id="ans3" type="radio" name="ans" val="Will"><span> Will</span></li>
-                </label>
-                <label for="ans4">
-                <li><input id="ans4" type="radio" name="ans" val="John"><span> John</span></li>
-                </label>
-            </ol>
-            <button id="btn__submit" class="btn submit">Submit</button>
+        <div class="home">
+            <header class="home__header">
+                <h1>Futurama Quiz</h1>
+            </header>
+            <h3 id="btn__home" class="btn">Start Quiz</h3>
         </div>
-    </div>
 
-    <div class="flash flash__correct hide">
-        <h2>Yay! Correct!</h2>
-    </div>
+        <!-- <div class="questions">
+            <div class="question">
+                <h1 class="question__header">What is Fry's first name?</h1>
+                <ul class="question__answers">
+                    <li class="question__answer">Fred</li>
+                    <li class="question__answer correct">Philip</li>
+                    <li class="question__answer">Will</li>
+                    <li class="question__answer">John</li>
+                </ul>
+            </div>
+        </div>
 
-    <div class="flash flash__wrong hide">
-        <h2>Wrong! The correct answer is: PHILIP</h2>
-    </div>
+        <div class="flash">
+            <div class="flash-message">
 
-    <div class="container score hide">
-        <h1 class="score-message">Your final score is: 0/10</h1>
-        <button id="btn__retake" class="btn">Take Again</button>
-        <button id="btn__close" class="btn">Close</button>
-    </div>
+            </div>
+        </div>
 
-    <script src="scripts/home.js"></script>
+        <div class="score">
+            <h1 class="score-message">Your final score is: </h1>
+            <h3 id="btn__close" class="btn">Close</h3>
+        </div> -->
+
+    <script src="scripts/main.js"></script>
 </body>
 
 </html>

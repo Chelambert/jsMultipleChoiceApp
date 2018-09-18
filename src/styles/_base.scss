@@ -11,7 +11,7 @@ body {
     margin: 0;
     padding: 0;
     font-size: $font-size-base;
-    background-color: $bg-gray;
+    background-color: $gray;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,27 +19,21 @@ body {
 
 h1,
 h2,
-h3,
-li {
+h3{
     font-family: $font;
     color: $white;
-    letter-spacing: $letter-spacing;
+    letter-spacing: 2px;
 }
 
-button {
-    font-family: $font;
-    font-size: $font-size-base;
-    color: $white;
-    letter-spacing: $letter-spacing;
+.btn{
     cursor: pointer;
-    margin-top: $base-margin;
-    height: $btn-height;
+    margin-top: 20px;
+    height: 40px;
     border: none;
-    border-bottom: $btn-border;
-    padding: $btn-padding;
+    border-bottom: 2px solid black;
+    padding: 7px;
     border-radius: $radius;
-    background-color: $btn-red;
+    background-color: $red;
     font-weight: lighter;
     box-shadow: $shadow;
-    width: 200px;
 }
