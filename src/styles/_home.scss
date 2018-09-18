@@ -1,0 +1,15 @@
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: $width;
+    padding: $padding;
+    border-radius: $radius;
+    height: $height;
+    flex-direction: column;
+    box-shadow: $shadow;
+    background-color: $purple;
+}
+
+
