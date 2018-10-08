@@ -11,19 +11,19 @@
 
 <body>
 
-    <div class="container home hide">
+    <div class="container home">
         <header class="home__header">
             <h1>Futurama Quiz</h1>
         </header>
         <button id="btn__start" class="btn">Start Quiz</button>
     </div>
 
-    <div class="container questions">
+    <div class="container questions hide">
         <div class="question">
             <h1 class="question__header">What is Fry's first name?</h1>
             <ol class="answers">
                 <label for="ans1">
-                    <li><input id="ans1" type="radio" name="ans" val="Fred"><span> Fred</span></li>
+                <li><input id="ans1" type="radio" name="ans" val="Fred"><span> Fred</span></li>
                 </label>
                 <label for="ans2">
                 <li><input id="ans2" type="radio" name="ans" val="Philip"><span> Philip</span></li>
@@ -39,12 +39,12 @@
         </div>
     </div>
 
-    <div class="flash flash__correct hide">
+    <div class="container flash__correct hide">
         <h2>Yay! Correct!</h2>
     </div>
 
-    <div class="flash flash__wrong hide">
-        <h2>Wrong! The correct answer is: PHILIP</h2>
+    <div class="container flash__incorrect hide">
+        <h2>Wrong! The correct answer is: /h2>
     </div>
 
     <div class="container score hide">

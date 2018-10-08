@@ -54,24 +54,12 @@ input[type="radio"] {
     background-color: $darkgray;
 }
 
-.flash {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: $flash-width;
-    padding: $base-padding;
-    border-radius: $radius;
-    height: $base-height;
-    flex-direction: column;
-}
-
 .flash__correct {
     background-color: $green;
 }
 
-.flash__wrong {
-    background-color: $red;
+.flash__incorrect {
+    background-color: $btn-red;
 }
 
 .hide {

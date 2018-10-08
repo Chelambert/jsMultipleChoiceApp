@@ -1,130 +1,198 @@
-//four buttons (start, submit, close || restart)
-const btn = document.querySelector("button");
-const correct = 0;
+const debug = true;
+
 const BASEURL = "https://sampleapis.com/futurama/questions";
-const game = {
+let game = {
     name: "",
     correct: 0,
     total: 0,
-    currentQuestion: 0
+    currentQuestion: 0,
 };
 
 // cache your DOM
-const start = document.getElementById("#btn__start");
-const submit = document.getElementById("#btn__submit");
-const retake = document.getElementById("#btn__retake");
-const close = document.getElementById("#btn__close");
-const questionSection = document.querySelector('.question');
-const answers = questionSection.querySelectorAll('.answer');
-const home = document.getElementByClassName(".home");
-const questions = document.getElementByClassName(".questions");
-const flashWrong = document.getElementByClassName(".flash__wrong");
-const flashCorrect = document.getElementByClassName(".flash__correct");
-const score = document.getElementByClassName(".score");
-
-function setEventListeners(){
-    //set listeners for various btns on the page
-    start.addEventListener("click", btnStart);
+let startBtn;
+let submitBtn;
+let retakeBtn;
+let closeBtn;
+let questionDisplay;
+let answersDisplay;
+let questionsContainer;
+let homeContainer;
+let scoreContainer;
+let questionsArr;
+let correctAnswerDisplay;
+let incorrectAnswerDisplay;
+let flash;
 
 
-    //call very last
-};
+function getQuestions() {
+    fetch(BASEURL)
+        .then(resp => resp.json())
+        .then(json => {
+            // we are randomizing array
+            questionsArr = randomizeArray(json);
+            questionsArr = trimArray(questionsArr, 8);
+            // turning on event listener to start quiz
+            startBtn.addEventListener("click", startQuiz);
+        })
+}
 
-function btnStart(){
-    home.classList.add("hide");
-    questions.classList.remove("hide");
-};
+/**
+ * randomizeArray
+ *
+ * @param {array} arr
+ * @return {array} randomizedArray
+ */
+function randomizeArray(_arr) {
+    return _arr.sort(() => Math.random() > .5 ? -1 : 1)
+}
 
-function btnSubmit(){
+function trimArray(_arr, _min) {
+    const max = _arr.length - 1;
+    const min = _min;
+    const total = Math.floor(Math.random() * (max - min + 1) + min);
 
+    return _arr.filter((a, i) => i < total);
+}
 
-};
+/**
+ * cacheDOM
+ *
+ * This simply selects all the dom elements we care about in this app
+ */
+function cacheDOM() {
+    if (debug) console.log('caching dom');
+    startBtn = document.querySelector("#btn__start");
+    submitBtn = document.querySelector("#btn__submit");
+    retakeBtn = document.querySelector("#btn__retake");
+    closeBtn = document.querySelector("#btn__close");
+    questionDisplay = document.querySelector('.question__header');
+    answersDisplay = document.querySelector('.answers');
+    incorrectAnswerDisplay = document.querySelector('.flash__incorrect');
+    correctAnswerDisplay = document.querySelector('.flash__correct');
+    homeContainer = document.querySelector(".container.home");
+    questionsContainer = document.querySelector(".container.questions");
+    scoreContainer = document.querySelector(".container.score");
+}
 
-function btnRetake(){
+/**
+ * setEventListeners
+ *
+ * after selecting the dom elements, listen for events we might need in the app
+ */
+function setEventListeners() {
+    submitBtn.addEventListener("click", checkAnswer);
 
-};
+}
 
-function btnClose(){
+/**
+ * startQuiz
+ *
+ * kicking things off with first question
+ */
+function startQuiz(e) {
+    e.preventDefault();
+    if (debug) console.log('starting quiz');
 
-};
+    // toggle what items are displayed
+    homeContainer.classList.add('hide');
+    questionsContainer.classList.remove('hide');
 
-function startQuiz(){
-    //reset correct score to 0
-    //reset current question to 0
-    //prompt for name
-    //go get questions
-};
-function getQuestions(){
-    //fetch from baseurl
-    //convert to json
-    //generate rand arr
-};
-function generateRandQuestions(){
-    //randomize arr
-    //get between 8 and length of arr
-    //update total questions to num from above
-    //display question
-};
-function displayQuestion(){
-    //update DOM with current question
-    //display possible answers that go with current question
-};
-function displayPossibleAnswers(){
-    //randomize possible answer arr
-    //display randomized arr
-};
-function checkAnswer(){
-    //select checked radio
-    //compare radio val to correct ans on current question
-        //true:
-            //add 1 to correct
-            //move on to next stage
-        //false:
-            //display correct ans
-};
-function displayCorrectAnswer(){
-    //select radio with correct val
-    //display correct graphic
-    //wait n seconds
-        //move to next stage
-};
-function endQuiz(){
-    //display user score
-    //congratulate if won
-    //scold if lost
-    //offer restart
-        //if restart, invoke start quiz
-};
-function updateQuiz(){
-    //check if current is greater than total
-        //true:
-            //end quiz
-        //false:
-            //update total,
-            //update current question,
-            //invoke displayQuestion
-};
+    // reset game incase of restart
 
+    game = {
+        name: "",
+        correct: 0,
+        total: 0,
+        currentQuestion: 1,
+    };
 
+    // display first question
+    displayCurrentQuestion();
 
-
-
-fetch(BASEURL)
-    .then(response => response.json())
-    .then(data => {
-        generateArray(data)
-    })
-
-function generateArray(arr){
-    const max = arr.length - 1;
-    const min = 8;
-    const total = Math.floor(Math.random()*(max-min+1)+min);
-
-    const randArr = arr
-                    .sort(() => Math.random() > .5 ? -1 : 1)
-                    .filter((a, i) => i < total);
-
-    console.log(randArr[0]);
+    // display first set of answers
+    displayCurrentPossibleAnswers();
 }
 
 
+function displayCurrentQuestion() {
+    console.log('display current question')
+    questionDisplay.innerText = questionsArr[game.currentQuestion].question
+}
+
+function displayCurrentPossibleAnswers() {
+    //TODO: how to clear to refresh answers
+    console.log('display current answers')
+    const randomizeAnswers = randomizeArray(questionsArr[game.currentQuestion].possibleAnswers)
+    answersDisplay.innerHTML = randomizeAnswers.map(a => {
+        return `<li>
+            <label>
+                <span>${a}</span>
+                <input type="radio" name="posAnswer" value="${a}"/>
+            </label>
+        </li>`;
+    }).join('');
+}
+
+function submitAnswer() {
+    //check if answers are correct
+    //check if there are more questions
+    submitBtn.addEventListener("click", checkAnswer);
+}
+
+function checkAnswer() {
+    // check answers after submit button is clicked
+    // const userAnswer = document.querySelector('[name="posAnswer"]:checked');
+    const userAnswer = document.querySelector('[name="posAnswer"]:checked').value;
+    console.log(userAnswer);
+    if (userAnswer === questionsArr[game.currentQuestion].correctAnswer) {
+        correctAnswerDisplay.classList.remove('hide');
+        questionsContainer.classList.add('hide');
+        game.correct++
+    }
+
+    else{
+        incorrectAnswerDisplay.classList.remove('hide');
+        questionsContainer.classList.add('hide');
+        incorrectAnswerDisplay.innerHTML = `<h2>Wrong!!! The correct answer is: ${questionsArr[game.currentQuestion].correctAnswer}</h2>`
+    }
+    console.log(game);
+    ++game.currentQuestion;
+
+
+    flashTimer();
+    console.log("returned to check answer");
+
+    //TODO: make sure you haven't run out of questions
+    displayCurrentQuestion();
+
+    //start timer
+    //update display to next question
+}
+
+function flashTimer() {
+    flash = setInterval(displayNewQuestion, 2000);
+}
+
+function displayNewQuestion() {
+    console.log("displayed new function");
+    correctAnswerDisplay.classList.add('hide');
+    incorrectAnswerDisplay.classList.add('hide');
+    questionsContainer.classList.remove('hide');
+
+
+    // displayCurrentQuestion();
+    clearInterval(flash);
+
+}
+
+//next question function
+    //clear timer (set interval and clear interval)
+    //trigger two other functions
+
+function init() {
+    cacheDOM();
+    setEventListeners();
+    getQuestions();
+}
+
+init();
