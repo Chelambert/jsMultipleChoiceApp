@@ -22,7 +22,8 @@ let questionsArr;
 let correctAnswerDisplay;
 let incorrectAnswerDisplay;
 let flash;
-
+let scoreMessage;
+let score;
 
 function getQuestions() {
     fetch(BASEURL)
@@ -72,6 +73,8 @@ function cacheDOM() {
     homeContainer = document.querySelector(".container.home");
     questionsContainer = document.querySelector(".container.questions");
     scoreContainer = document.querySelector(".container.score");
+    scoreMessage = document.querySelector(".score-message");
+    score = document.querySelector(".score");
 }
 
 /**
@@ -81,6 +84,7 @@ function cacheDOM() {
  */
 function setEventListeners() {
     submitBtn.addEventListener("click", checkAnswer);
+    retakeBtn.addEventListener("click", startQuiz);
 
 }
 
@@ -90,6 +94,8 @@ function setEventListeners() {
  * kicking things off with first question
  */
 function startQuiz(e) {
+    scoreContainer.classList.add('hide');
+
     e.preventDefault();
     if (debug) console.log('starting quiz');
 
@@ -103,7 +109,7 @@ function startQuiz(e) {
         name: "",
         correct: 0,
         total: 0,
-        currentQuestion: 1,
+        currentQuestion: 0,
     };
 
     // display first question
@@ -133,12 +139,6 @@ function displayCurrentPossibleAnswers() {
     }).join('');
 }
 
-function submitAnswer() {
-    //check if answers are correct
-    //check if there are more questions
-    submitBtn.addEventListener("click", checkAnswer);
-}
-
 function checkAnswer() {
     // check answers after submit button is clicked
     // const userAnswer = document.querySelector('[name="posAnswer"]:checked');
@@ -147,10 +147,10 @@ function checkAnswer() {
     if (userAnswer === questionsArr[game.currentQuestion].correctAnswer) {
         correctAnswerDisplay.classList.remove('hide');
         questionsContainer.classList.add('hide');
-        game.correct++
+        ++game.correct
     }
 
-    else{
+    else {
         incorrectAnswerDisplay.classList.remove('hide');
         questionsContainer.classList.add('hide');
         incorrectAnswerDisplay.innerHTML = `<h2>Wrong!!! The correct answer is: ${questionsArr[game.currentQuestion].correctAnswer}</h2>`
@@ -162,32 +162,48 @@ function checkAnswer() {
     flashTimer();
     console.log("returned to check answer");
 
-    //TODO: make sure you haven't run out of questions
     displayCurrentQuestion();
-
-    //start timer
-    //update display to next question
+    displayCurrentPossibleAnswers();
 }
 
 function flashTimer() {
+    //start timer
+    //update display to next question
     flash = setInterval(displayNewQuestion, 2000);
 }
 
 function displayNewQuestion() {
+    //next question function
+    //clear timer (set interval and clear interval)
+    //trigger two other functions
     console.log("displayed new function");
     correctAnswerDisplay.classList.add('hide');
     incorrectAnswerDisplay.classList.add('hide');
     questionsContainer.classList.remove('hide');
 
-
-    // displayCurrentQuestion();
     clearInterval(flash);
-
+    quizEnd();
 }
 
-//next question function
-    //clear timer (set interval and clear interval)
-    //trigger two other functions
+function quizEnd() {
+    if (game.currentQuestion > 2) {
+        console.log("you're done");
+        scoreContainer.classList.remove('hide');
+        questionsContainer.classList.add('hide');
+
+        scoreCheck();
+
+    }
+}
+
+function scoreCheck() {
+    //TODO: make sure retake button comes up and is clickable
+    const passed = game.correct < 3
+    const endMessage = passed ? 'You failed!!!' : 'You passed!!'
+    scoreContainer.innerHTML = `<h3>Your final score is: ${game.correct}/10</h3>
+            <h3>${endMessage}</h3>
+            <button> Retake </button>`;
+}
 
 function init() {
     cacheDOM();
@@ -196,3 +212,4 @@ function init() {
 }
 
 init();
+
