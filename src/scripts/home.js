@@ -192,7 +192,6 @@ function quizEnd() {
         questionsContainer.classList.add('hide');
 
         scoreCheck();
-
     }
 }
 
